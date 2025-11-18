@@ -13,6 +13,7 @@ public class SecurityConfig {
 
     final String[] PUBLIC_URLS = {
             "/api/**", // TODO: Make specific endpoints public as needed
+            "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html" // Swagger UI
     };
 
     @Bean
