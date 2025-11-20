@@ -4,10 +4,11 @@ import java.util.List;
 
 import io.vavr.control.Either;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.arqetype.growli.model.User;
+import com.arqetype.growli.entity.User;
 import com.arqetype.growli.repository.UserRepository;
 
 @Service
@@ -15,6 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
@@ -52,9 +54,6 @@ public class UserService {
         }
         if (userRepository.existsByEmail(user.getEmail())) {
             return Either.left(new IllegalArgumentException("Email is already in use!"));
-        }
-        if (user.getPassword() == null) {
-            return Either.left(new IllegalArgumentException("Password is required!"));
         }
 
         // crypt password

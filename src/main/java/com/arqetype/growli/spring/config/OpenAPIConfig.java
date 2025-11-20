@@ -1,4 +1,4 @@
-package com.arqetype.growli.config;
+package com.arqetype.growli.spring.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 @Profile("dev")
 @Configuration
-public class OpenAPIConfiguration {
+public class OpenAPIConfig {
 
     @Bean
     public OpenAPI defineOpenAPI() {

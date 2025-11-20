@@ -1,15 +1,15 @@
 package com.arqetype.growli.controller;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.arqetype.growli.model.User;
+import com.arqetype.growli.entity.User;
 import com.arqetype.growli.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "Users", description = "Operations related to users")
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
-    private static final Logger logger = Logger.getLogger(UserController.class.getName());
+
     private final UserService userService;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -34,10 +35,7 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         return userService.getAllUsers()
                 .map(users -> new ResponseEntity<>(users, HttpStatus.OK))
-                .getOrElseGet(ex -> {
-                    logger.severe(ex.getMessage());
-                    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-                });
+                .getOrElseGet(_ -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/{id}")
@@ -47,10 +45,7 @@ public class UserController {
     ) {
         return userService.getUserById(id)
                 .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
-                .getOrElseGet(ex -> {
-                    logger.severe(ex.getMessage());
-                    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-                });
+                .getOrElseGet(_ -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
@@ -60,9 +55,6 @@ public class UserController {
     ) {
         return userService.createUser(user)
                 .map(createdUser -> new ResponseEntity<>(createdUser, HttpStatus.CREATED))
-                .getOrElseGet(ex -> {
-                    logger.info(ex.getMessage());
-                    return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-                });
+                .getOrElseGet(_ -> new ResponseEntity<>(null, HttpStatus.BAD_REQUEST));
     }
 }
