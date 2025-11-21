@@ -56,7 +56,6 @@ public class UserService {
             return Either.left(new IllegalArgumentException("Email is already in use!"));
         }
 
-        // crypt password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return Either.right(userRepository.save(user));
     }

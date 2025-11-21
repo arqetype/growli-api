@@ -13,8 +13,6 @@ import com.arqetype.growli.entity.User;
 import com.arqetype.growli.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,15 +44,5 @@ public class UserController {
         return userService.getUserById(id)
                 .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .getOrElseGet(_ -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
-    }
-
-    @PostMapping
-    @Operation(summary = "Create a new user", description = "Create a new user")
-    public ResponseEntity<User> createUser(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User to be created", required = true) @RequestBody User user
-    ) {
-        return userService.createUser(user)
-                .map(createdUser -> new ResponseEntity<>(createdUser, HttpStatus.CREATED))
-                .getOrElseGet(_ -> new ResponseEntity<>(null, HttpStatus.BAD_REQUEST));
     }
 }
