@@ -23,9 +23,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     public static final String BEARER_ = "Bearer ";
 
     @Autowired
-    private JwtUtil jwtUtil;
+    JwtUtil jwtUtil;
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    CustomUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(
